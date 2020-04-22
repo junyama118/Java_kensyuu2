@@ -1,10 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -29,7 +26,9 @@ public class Main {
 
     public void execute() {
         viewTop();
-        viewAvg();
+        double v = calcAvg();
+        System.out.println(v);
+        viewAvg2();
     }
 
     public void viewTop() {
@@ -47,5 +46,24 @@ public class Main {
                 .mapToDouble(Student::getEnglishScore)
                 .average();
         System.out.println(average.orElse(0));
+    }
+
+
+    public double calcAvg() {
+        return students
+                .stream()
+                .mapToDouble(Student::getEnglishScore)
+                .average().orElse(0);
+    }
+
+
+    public void viewAvg2() {
+        OptionalDouble m = students
+                .stream()
+                .filter(student -> Objects.equals(String.valueOf(student.getSex()), "M"))
+                .mapToDouble(Student::getEnglishScore)
+                .average();
+        System.out.println(Math.round(m.orElse(0)));
+
     }
 }
